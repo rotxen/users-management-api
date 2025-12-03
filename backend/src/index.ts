@@ -35,11 +35,28 @@ class App {
    * Configuración de middlewares globales
    */
   private initializeMiddlewares(): void {
-    // CORS - Permitir requests desde el frontend
+    // CORS - Permitir requests desde el frontend (localhost y devtunnels)
+    const defaultOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
+    const allowedOrigins = (process.env.CORS_ORIGIN_LIST || defaultOrigin)
+      .split(',')
+      .map((o) => o.trim())
+      .filter((o) => o.length > 0);
+
+    const devTunnelRegex = /\.devtunnels\.ms$/i;
+
     this.app.use(
       cors({
-        origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
         credentials: true,
+        origin: (origin, callback) => {
+          if (!origin) {
+            // Requests sin origin (ej: herramientas locales) permitir en dev
+            return callback(null, true);
+          }
+          const isAllowed =
+            allowedOrigins.includes(origin) || devTunnelRegex.test(origin);
+          if (isAllowed) return callback(null, true);
+          return callback(new Error(`CORS bloqueado para origen: ${origin}`));
+        },
       })
     );
 

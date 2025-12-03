@@ -10,7 +10,24 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
  * - Soporte de TypeScript excellent
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// Detectar si estamos en devtunnels o localhost para usar la URL correcta
+const getBaseURL = (): string => {
+  // Si hay variable de entorno, usarla
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Si estamos en devtunnels, usar la misma URL base + /api
+  const currentHost = window.location.host;
+  if (currentHost.includes('devtunnels.ms')) {
+    return `${window.location.origin}/api`;
+  }
+  
+  // Por defecto, localhost
+  return 'http://localhost:3000/api';
+};
+
+const API_URL = getBaseURL();
 
 /**
  * Instancia de Axios configurada para la API
