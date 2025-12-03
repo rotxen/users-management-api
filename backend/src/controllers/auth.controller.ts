@@ -150,4 +150,8 @@ export class AuthController {
       });
     }
   };
+
+  /*
+    Este comit sumula una optimizaciòn en el controlador de autenticaciòn
+  */ 
 }
