@@ -174,4 +174,8 @@ export class UserController {
       });
     }
   };
+  /*
+    Este cambio es para simular un commit para controllers
+    Agregar funciòn para elminar usuarios registrados. 
+  */
 }
