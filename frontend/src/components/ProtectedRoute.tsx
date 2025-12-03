@@ -14,7 +14,10 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
-
+  /**
+   * Este commir simula un error detectado en pruebas tempranas Fix. 
+   * Se detecta en el ambiente de Dev o QA. 
+   */
   // Mostrar loading mientras se verifica la autenticación
   if (isLoading) {
     return (
