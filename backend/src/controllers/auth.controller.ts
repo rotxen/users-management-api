@@ -22,6 +22,10 @@ export class AuthController {
    */
   register = async (req: Request, res: Response): Promise<void> => {
     try {
+      /**
+       * Este commit simula una correccion HotFix, la mara sale de main
+       * debido a que es un error directamente de producción.
+       */
       // Validar errores de express-validator
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
